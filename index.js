@@ -25,7 +25,7 @@ program
         '.',
         '--write',
         '--config-path',
-        path.resolve(import.meta.dirname, './biome.config.json'),
+        path.resolve(import.meta.dirname, './biome.json'),
       ],
       {
         stdio: 'inherit',
@@ -48,7 +48,7 @@ program
         'check',
         '.',
         '--config-path',
-        path.resolve(import.meta.dirname, './biome.config.json'),
+        path.resolve(import.meta.dirname, './biome.json'),
       ],
       {
         stdio: 'inherit',
