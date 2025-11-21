@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-import { execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
+import path from 'node:path';
 import url from 'node:url';
 import { program } from 'commander';
 import packageJson from './package.json' with { type: 'json' };
@@ -14,10 +15,10 @@ const biomeBinaryUrl = import.meta.resolve('@biomejs/biome/bin/biome');
 const biomeBinaryPath = url.fileURLToPath(biomeBinaryUrl);
 
 program
-  .command('apply')
+  .command('lint:fix')
   .description('Applies the Resend style to the current project')
   .action(() => {
-    execSync(
+    const biome = spawnSync(
       biomeBinaryPath,
       [
         'check',
@@ -31,13 +32,17 @@ program
         cwd: process.cwd(),
       },
     );
+
+    if (biome.error) {
+      throw biome.error;
+    }
   });
 
 program
-  .command('check')
-  .description('Applies the Resend style to the current project')
+  .command('lint')
+  .description('Checks if the project conforms to the Resend style')
   .action(() => {
-    execSync(
+    const biome = spawnSync(
       biomeBinaryPath,
       [
         'check',
@@ -50,4 +55,10 @@ program
         cwd: process.cwd(),
       },
     );
+
+    if (biome.error) {
+      throw biome.error;
+    }
   });
+
+program.parse();
